@@ -1,4 +1,5 @@
 FROM golang:1.15 as build
+ARG TARGETARCH=amd64
 
 # Create appuser.
 # See https://stackoverflow.com/a/55757473/12429735
@@ -19,7 +20,7 @@ RUN go get github.com/rakyll/hey
 # Build
 WORKDIR /go/src/github.com/rakyll/hey
 RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/hey hey.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH go build -o /go/bin/hey hey.go
 
 ###############################################################################
 # final stage

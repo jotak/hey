@@ -64,3 +64,16 @@ Options:
 ```
 
 Previously known as [github.com/rakyll/boom](https://github.com/rakyll/boom).
+
+## Multi-arch build (podman)
+
+```bash
+podman build --platform linux/amd64 --build-arg TARGETARCH=amd64 -t quay.io/jotak/hey:amd64 .
+podman build --platform linux/arm64 --build-arg TARGETARCH=arm64 -t quay.io/jotak/hey:arm64 .
+podman push quay.io/jotak/hey:amd64
+podman push quay.io/jotak/hey:arm64
+podman manifest create quay.io/jotak/hey:multiarch
+podman manifest add quay.io/jotak/hey:multiarch docker://quay.io/jotak/hey:amd64
+podman manifest add quay.io/jotak/hey:multiarch docker://quay.io/jotak/hey:arm64
+podman manifest push quay.io/jotak/hey:multiarch
+```
